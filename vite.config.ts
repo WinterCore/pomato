@@ -5,6 +5,9 @@ import eslint from "vite-plugin-eslint";
 
 // https://vitejs.dev/config/
 export default defineConfig({
+    server: {
+        port: 8080,
+    },
     plugins: [
         react({
             jsxImportSource: "@emotion/react",

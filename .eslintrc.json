@@ -29,7 +29,8 @@
     "@typescript-eslint/no-non-null-asserted-optional-chain": "error",
     "unused-imports/no-unused-imports": "error",
     "functional/prefer-readonly-type": "error",
-    "quotes": ["error", "double"]
+    "quotes": ["error", "double"],
+    "@typescript-eslint/no-empty-interface": ["off"]
   },
   "ignorePatterns": [
     "dist",
