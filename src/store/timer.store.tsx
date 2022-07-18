@@ -1,6 +1,7 @@
 import React, {Dispatch} from "react";
 import {useSettings} from "./settings.store";
 import {TimerType} from "../types/common";
+import {usePrevious} from "../hooks/use-previous";
 
 export const TIMER_TYPE_LABEL: Record<TimerType, string> = {
     [TimerType.POMATO]: "Pomato",
@@ -94,7 +95,7 @@ export const TimerStoreProvider: React.FC<ITimerStoreProviderProps> = (props) =>
     }, [isStarted, dispatch, intervalIDRef]);
 
     React.useEffect(() => {
-        if (state.secondsLeft > 0) {
+        if (state.secondsLeft > 0 || ! state.isStarted) {
             return;
         }
 
@@ -115,6 +116,24 @@ export const TimerStoreProvider: React.FC<ITimerStoreProviderProps> = (props) =>
         });
     }, [state, dispatch, durations]);
 
+
+    const currentDuration = durations[state.type];
+    const prevDuration = usePrevious(currentDuration);
+
+    React.useEffect(() => {
+        if (currentDuration === prevDuration) {
+            return;
+        }
+
+        dispatch({
+            type: TimerStoreActionType.CHANGE_TYPE,
+            payload: {
+                type: state.type,
+                duration: currentDuration,
+            },
+        });
+    }, [currentDuration, prevDuration, state.type]);
+
     const store = React.useMemo(() => ({ state, dispatch }), [state, dispatch]);
 
     return <TimerContext.Provider value={store} children={children} />;
@@ -132,7 +151,6 @@ export const useTimerStore = () => {
     }
 
     const { settings: { durations } } = useSettings();
-
 
     const { state, dispatch } = store;
 

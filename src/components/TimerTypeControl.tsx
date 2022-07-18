@@ -18,9 +18,12 @@ export const TimerTypeControl: React.FC<ITimerTypeControlProps> = (props) => {
         changeType(item.key), [changeType]);
 
     return (
-        <ItemPicker selected={type}
-                    items={ITEMS}
-                    onChange={handleChange} />
+        <div css={{ display: "flex", justifyContent: "center" }}>
+            <ItemPicker {...props}
+                        selected={type}
+                        items={ITEMS}
+                        onChange={handleChange} />
+        </div>
     );
 };
 

@@ -2,13 +2,17 @@ import React, {HTMLAttributes} from "react";
 import styled from "@emotion/styled";
 import {IRecordWithLabel} from "../types/common";
 
-interface IItemPickerProps<T extends IRecordWithLabel> extends Omit<HTMLAttributes<HTMLDivElement>, "onChange"> {
+export interface IItemPickerRecord<T extends string = string> extends IRecordWithLabel<T> {
+    readonly icon?: React.ReactNode;
+}
+
+interface IItemPickerProps<T extends IItemPickerRecord> extends Omit<HTMLAttributes<HTMLDivElement>, "onChange"> {
     readonly selected: T["key"];
     readonly onChange: (item: T) => void;
     readonly items: ReadonlyArray<T>;
 }
 
-export const ItemPicker = <T extends IRecordWithLabel>(props: IItemPickerProps<T>): React.ReactElement => {
+export const ItemPicker = <T extends IItemPickerRecord>(props: IItemPickerProps<T>): React.ReactElement => {
     const { selected, onChange, items, ...restProps } = props;
 
     const [height, setHeight] = React.useState<number | "auto">("auto");
@@ -35,15 +39,18 @@ export const ItemPicker = <T extends IRecordWithLabel>(props: IItemPickerProps<T
         height === "auto" ? "auto" : height / items.length, [items.length, height]);
 
     return (
-        <Container {...restProps} style={{ padding: itemHeight !== "auto" ? `${itemHeight * 2}px 0` : 0 }}>
+        <Container {...restProps} style={{ padding: itemHeight !== "auto" ? `${itemHeight * (items.length - 1)}px 0` : 0 }}>
             <div style={{ position: "relative", height: itemHeight }} ref={containerRef}>
                 {height !== "auto" && <Highlight />}
 
-                <ItemsContainer style={{ transform: `translateY(calc(100% / 3 * ${selectedIndex} * -1))` }}>
+                <ItemsContainer style={{ transform: `translateY(calc(100% / ${items.length} * ${selectedIndex} * -1))` }}>
                     {items.map((item, i) =>
                         <Item className={selectedIndex === i ? "active" : ""}
                               onClick={handleChange(item)}
                               key={item.key}>
+                              {item.icon && (
+                                  <div style={{ marginRight: 12 }}>{item.icon}</div>
+                              )}
                             {item.label}
                         </Item>
                     )}
@@ -61,6 +68,9 @@ const Item = styled.div`
     cursor: pointer;
     font-weight: bold;
     user-select: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 `;
 
 const ItemsContainer = styled.div`
@@ -79,16 +89,13 @@ const ItemsContainer = styled.div`
     }
 
     & > div.active {
-        color: ${({ theme }) => theme.C200};
+        color: ${({ theme }) => theme.palette.typography.primary};
         opacity: 1
     }
 `;
 
 const Container = styled.div`
-    color: ${({ theme }) => theme.C400};
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    color: ${({ theme }) => theme.palette.typography.hint};
 `;
 
 const Highlight = styled.div`
@@ -98,5 +105,5 @@ const Highlight = styled.div`
     border-radius: 9999px;
     height: 100%;
     width: 100%;
-    background: ${({ theme }) => theme.C800};
+    background: ${({ theme }) => theme.palette.background.secondary};
 `;

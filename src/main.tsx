@@ -8,7 +8,5 @@ const elem = document.getElementById("root") as HTMLDivElement;
 ReactDOM
     .createRoot(elem)
     .render(
-        <React.StrictMode>
             <App />
-        </React.StrictMode>
     );

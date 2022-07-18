@@ -5,10 +5,12 @@ specifiers:
   '@emotion/react': ^11.9.3
   '@emotion/styled': ^11.9.3
   '@react-spring/web': ^9.5.0
+  '@types/debounce': ^1.2.1
   '@types/react': ^18.0.15
   '@types/react-dom': ^18.0.6
   '@typescript-eslint/eslint-plugin': ^5.30.6
   '@vitejs/plugin-react': ^2.0.0
+  debounce: ^1.2.1
   eslint: ^8.19.0
   eslint-config-prettier: ^8.5.0
   eslint-config-standard-with-typescript: ^22.0.0
@@ -29,6 +31,8 @@ dependencies:
   '@emotion/react': 11.9.3_3hx2ussxxho4jajbwrd6gq34qe
   '@emotion/styled': 11.9.3_t4da3hocwt6ljcf3o6em4qwqzm
   '@react-spring/web': 9.5.0_biqbaboplfbrettd7655fr4n2y
+  '@types/debounce': 1.2.1
+  debounce: 1.2.1
   react: 18.2.0
   react-dom: 18.2.0_react@18.2.0
 
@@ -585,6 +589,10 @@ packages:
       picomatch: 2.3.1
     dev: true
 
+  /@types/debounce/1.2.1:
+    resolution: {integrity: sha512-epMsEE85fi4lfmJUH/89/iV/LI+F5CvNIvmgs5g5jYFPfhO2S/ae8WSsLOKWdwtoaZw9Q2IhJ4tQ5tFCcS/4HA==}
+    dev: false
+
   /@types/eslint/8.4.5:
     resolution: {integrity: sha512-dhsC09y1gpJWnK+Ff4SGvCuSnk9DaU0BJZSzOwa6GVSg65XtTugLBITDAAzRU5duGBoXBHpdR/9jHGxJjNflJQ==}
     dependencies:
@@ -972,6 +980,10 @@ packages:
 
   /csstype/3.1.0:
     resolution: {integrity: sha512-uX1KG+x9h5hIJsaKR9xHUeUraxf8IODOwq9JLNPq6BwB04a/xgpq3rcx47l5BZu5zBPlgD342tdke3Hom/nJRA==}
+
+  /debounce/1.2.1:
+    resolution: {integrity: sha512-XRRe6Glud4rd/ZGQfiV1ruXSfbvfJedlV9Y6zOlP+2K04vBYiJEte6stfFkCP03aMnY5tsipamumUjL14fofug==}
+    dev: false
 
   /debug/2.6.9:
     resolution: {integrity: sha512-bC7ElrdJaJnPbAP+1EotYvqZsb3ecl5wi6Bfi6BJTUcNowp6cvspg0jXznRTKDjm/E7AdgFBVeAPVMNcKGsHMA==}

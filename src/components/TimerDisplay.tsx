@@ -37,6 +37,10 @@ const DigitsContainer = styled.div`
     display: flex;
     gap: 10px;
     width: 400px;
+
+    @media (max-width: ${({ theme }) => theme.breakpoints.sm}px) {
+        width: 300px;
+    }
 `;
 
 const SegmentDigit = styled(SegmentDigitDefault)`

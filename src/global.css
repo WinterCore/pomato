@@ -43,9 +43,17 @@ table {
 	border-spacing: 0;
 }
 
+html {
+    overflow-y: hidden;
+}
+
 html, body {
 	line-height: 1;
     margin: 0;
     font-family: 'Monda', sans-serif;
-    overflow: hidden;
+    overflow-x: hidden;
+}
+
+* {
+    box-sizing: border-box;
 }

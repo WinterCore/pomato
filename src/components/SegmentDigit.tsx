@@ -23,7 +23,7 @@ export const SegmentDigit: React.FC<ISegmentDigitProps> = (props) => {
     });
 
     return (
-        <svg viewBox={viewBox} fill={theme.foreground} css={css}>
+        <svg viewBox={viewBox} fill={theme.palette.typography.primary} css={css}>
             <g>
                 {segsWithTransitions((style, item) => <animated.path style={style} d={item.data} />)}
             </g>
