@@ -1,10 +1,12 @@
 import React, {Dispatch} from "react";
+import {useSettings} from "./settings.store";
+import {TimerType} from "../types/common";
 
-export enum TimerType {
-    POMODORO,
-    SHORT_BREAK,
-    LONG_BREAK,
-}
+export const TIMER_TYPE_LABEL: Record<TimerType, string> = {
+    [TimerType.POMATO]: "Pomato",
+    [TimerType.SHORT_BREAK]: "Short Break",
+    [TimerType.LONG_BREAK]: "Long Break",
+};
 
 interface ITimerStoreState {
     readonly type: TimerType;
@@ -48,12 +50,6 @@ interface ITimerStore {
 
 const TimerContext = React.createContext<ITimerStore | null>(null);
 
-const DEFAULT_STATE: ITimerStoreState = {
-    type: TimerType.POMODORO,
-    isStarted: false,
-    secondsLeft: 60 * 25,
-};
-
 function timerStoreReducer(state: ITimerStoreState, action: ITimerStoreAction): ITimerStoreState {
     switch(action.type) {
         case TimerStoreActionType.START:
@@ -61,7 +57,7 @@ function timerStoreReducer(state: ITimerStoreState, action: ITimerStoreAction): 
         case TimerStoreActionType.STOP:
             return { ...state, isStarted: false };
         case TimerStoreActionType.DECREMENT:
-            return { ...state, secondsLeft: state.secondsLeft - 1 };
+            return { ...state, secondsLeft: Math.max(state.secondsLeft - 1, 0) };
         case TimerStoreActionType.CHANGE_TYPE: {
             const { payload: { type, duration } } = action;
 
@@ -76,18 +72,48 @@ interface ITimerStoreProviderProps {
 
 export const TimerStoreProvider: React.FC<ITimerStoreProviderProps> = (props) => {
     const { children } = props;
-    const [state, dispatch] = React.useReducer(timerStoreReducer, DEFAULT_STATE);
+    const { settings: { durations } } = useSettings();
+    const [state, dispatch] = React.useReducer(timerStoreReducer, {
+        type: TimerType.POMATO,
+        isStarted: false,
+        secondsLeft: durations[TimerType.POMATO],
+    });
+
     const { isStarted } = state;
+
+    const intervalIDRef = React.useRef<number | null>(null);
 
     React.useEffect(() => {
         if (! isStarted) {
             return;
         }
 
-        const intervalID = setInterval(() => dispatch({ type: TimerStoreActionType.DECREMENT }), 1000);
+        intervalIDRef.current = setInterval(() => dispatch({ type: TimerStoreActionType.DECREMENT }), 1000);
 
-        return () => clearInterval(intervalID);
-    }, [isStarted, dispatch]);
+        return () => clearInterval(intervalIDRef.current || undefined);
+    }, [isStarted, dispatch, intervalIDRef]);
+
+    React.useEffect(() => {
+        if (state.secondsLeft > 0) {
+            return;
+        }
+
+        clearInterval(intervalIDRef.current || undefined);
+
+        // Play sound
+        alarmAudio.load();
+        alarmAudio.play().catch(console.error);
+
+        const newType = state.type === TimerType.POMATO ? TimerType.SHORT_BREAK : TimerType.POMATO; 
+        
+        dispatch({
+            type: TimerStoreActionType.CHANGE_TYPE,
+            payload: {
+                type: newType,
+                duration: durations[newType],
+            },
+        });
+    }, [state, dispatch, durations]);
 
     const store = React.useMemo(() => ({ state, dispatch }), [state, dispatch]);
 
@@ -96,6 +122,7 @@ export const TimerStoreProvider: React.FC<ITimerStoreProviderProps> = (props) =>
 
 const playAudio = new Audio("/assets/play.mp3");
 const pauseAudio = new Audio("/assets/pause.mp3");
+const alarmAudio = new Audio("/assets/alarm.mp3");
 
 export const useTimerStore = () => {
     const store = React.useContext(TimerContext);
@@ -104,20 +131,35 @@ export const useTimerStore = () => {
         throw new Error("useTimerStore must be used within a component that's wrapped with TimerStoerProvider");
     }
 
+    const { settings: { durations } } = useSettings();
+
+
     const { state, dispatch } = store;
 
     const start = React.useCallback(() => {
         dispatch({ type: TimerStoreActionType.START });
         playAudio.play().catch(console.error);
     }, [dispatch]);
+
     const stop = React.useCallback(() => {
         dispatch({ type: TimerStoreActionType.STOP });
         pauseAudio.play().catch(console.error);
     }, [dispatch]);
 
+    const changeType = React.useCallback((timerType: TimerType) => {
+        dispatch({
+            type: TimerStoreActionType.CHANGE_TYPE,
+            payload: {
+                type: timerType,
+                duration: durations[timerType],
+            },
+        });
+    }, [dispatch, durations]);
+
     return {
         ...state,
         start,
-        stop
+        stop,
+        changeType,
     };
 };

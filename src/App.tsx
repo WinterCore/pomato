@@ -5,7 +5,9 @@ import {TimerDisplay} from "./components/TimerDisplay";
 import {SettingsProvider} from "./store/settings.store";
 import {TimerStoreProvider} from "./store/timer.store";
 import {TimerControls} from "./components/TimerControls";
-import {SettingsIcon} from "./icons/Settings";
+import {SettingsCog} from "./components/SettingsCog";
+import {TimerTypeControl} from "./components/TimerTypeControl";
+import {animated, Spring} from "@react-spring/web";
 
 export const App: React.FC = () => {
     const [zenMode, setZenMode] = React.useState(false);
@@ -29,16 +31,21 @@ export const App: React.FC = () => {
                 <Main>
                     <TimerStoreProvider>
                         <TimerDisplayContainer>
-                            <TimerDisplay />
+                            <TimerTypeControl />
+                            <TimerDisplay css={{ margin: "40px 0 100px" }} />
 
-                            {! zenMode && (
-                                <ControlsContainer>
-                                    <TimerControls />
-                                </ControlsContainer>
-                            )}
+                            <Spring to={{ opacity: zenMode ? 0 : 1 }}>
+                                {styles => (
+                                    <ControlsContainer style={styles}>
+                                        <TimerControls />
+                                    </ControlsContainer>
+                                )}
+                            </Spring>
                         </TimerDisplayContainer>
                     </TimerStoreProvider>
-                    {! zenMode && <SettingsCog />}
+                    <Spring to={{ opacity: zenMode ? 0 : 1 }}>
+                        {styles => <animated.div style={styles}><SettingsCog /></animated.div>}
+                    </Spring>
                 </Main>
             </SettingsProvider>
         </ThemeProvider>
@@ -54,10 +61,7 @@ const Main = styled.main`
     align-items: center;
 `;
 
-const ControlsContainer = styled.div`
-    position: absolute;
-    bottom: -100px;
-    left: 0;
+const ControlsContainer = styled(animated.div)`
     display: flex;
     justify-content: center;
     width: 100%;
@@ -65,21 +69,4 @@ const ControlsContainer = styled.div`
 
 const TimerDisplayContainer = styled.div`
     position: relative;
-`;
-
-const SettingsCog = styled(SettingsIcon)`
-    position: absolute;
-    top: 24px;
-    right: 24px;
-    width: 24px;
-    cursor: pointer;
-
-    fill: ${({ theme }) => theme.C500};
-
-    transition: all 150ms ease-in-out;
-
-    &:hover {
-        transform: rotate(45deg);
-        fill: ${({ theme }) => theme.foreground};
-    }
 `;

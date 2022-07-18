@@ -1,11 +1,8 @@
 import React from "react";
+import {TimerType} from "../types/common";
 
 export interface ISettings {
-    readonly durations: {
-        readonly pomodoro: number;
-        readonly shortBreak: number;
-        readonly longBreak: number;
-    };
+    readonly durations: Record<TimerType, number>;
 }
 
 interface ISettingsStore {
@@ -17,9 +14,9 @@ const SettingsContext = React.createContext<ISettingsStore | null>(null);
 
 const DEFAULT_SETTINGS: ISettings = {
     durations: {
-        pomodoro: 25 * 60,
-        longBreak: 15 * 60,
-        shortBreak: 5 * 60,
+        [TimerType.POMATO]: 5,
+        [TimerType.SHORT_BREAK]: 2,
+        [TimerType.LONG_BREAK]: 15 * 60,
     },
 };
 

@@ -47,4 +47,5 @@ html, body {
 	line-height: 1;
     margin: 0;
     font-family: 'Monda', sans-serif;
+    overflow: hidden;
 }
