@@ -3,7 +3,7 @@ import {CONFIG} from "./config.ts";
 import {AuthRouter} from "./routes/auth.ts";
 
 // Connect to the database
-import "./database.ts";
+import "./database/init.ts";
 
 const app = new Application();
 

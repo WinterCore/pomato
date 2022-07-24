@@ -1,5 +1,5 @@
 export interface IOAuthUserData {
-    readonly uid: string;
+    readonly id: string;
     readonly email: string;
     readonly name: string;
     readonly profile_picture_url: string;
@@ -7,5 +7,5 @@ export interface IOAuthUserData {
 
 export interface IOAuthProvider {
     readonly getAuthURL: () => string;
-    // readonly getData: () => Promise<IOAuthUserData>;
+    readonly getData: (authCode: string) => Promise<IOAuthUserData>;
 }
