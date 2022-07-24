@@ -4,7 +4,7 @@ import {SVGProps} from "react";
 export interface ISVGIconProps extends SVGProps<SVGSVGElement> {}
 
 const SVG = styled.svg`
-    fill: ${({ theme }) => theme.palette.typography.primary};
+    fill: currentColor;
     width: 48px;
 `;
 

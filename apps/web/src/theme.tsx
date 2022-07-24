@@ -80,14 +80,14 @@ const THEMES: Record<ThemeMode, Theme> = {
         breakpoints: THEME_BREAKPOINTS,
         palette: {
             background: {
-                primary: "#1e1e20",
-                secondary: "#fff",
-                paper: "#28272c",
+                primary: "#FFFFFF",
+                secondary: "#e5e4e8",
+                paper: "#f4f4f4",
             },
             typography: {
-                primary: "#FFFFFF",
+                primary: "#000000",
                 secondary: "",
-                hint: "#83818c",
+                hint: "#71717b",
             }
         },
     },

@@ -77,6 +77,7 @@ const ItemsContainer = styled.div`
     position: relative;
     z-index: 4;
     transition: transform 200ms ease-in-out;
+    color: ${({ theme }) => theme.palette.typography.hint};
 
 
     & > div {
@@ -95,7 +96,6 @@ const ItemsContainer = styled.div`
 `;
 
 const Container = styled.div`
-    color: ${({ theme }) => theme.palette.typography.hint};
 `;
 
 const Highlight = styled.div`
