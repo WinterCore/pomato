@@ -11,6 +11,30 @@ app.addEventListener("listen", ({ hostname, port, secure }) => {
     console.log(`Listening on: ${secure ? "https://" : "http://"}${hostname ?? "localhost"}:${port}`);
 });
 
+const ALLOWED_CORS_ORIGINS = [
+    "http://127.0.0.1",
+    "http://localhost",
+    "http://pomato.app",
+];
+
+app.use(async (ctx, next) => {
+
+    const origin = ctx.request.headers.get("origin");
+    console.log(ctx.request.method, origin);
+
+    if (origin && ALLOWED_CORS_ORIGINS.find(allowed => origin.startsWith(allowed))) {
+        ctx.response.headers.set("Access-Control-Allow-Origin", origin);
+        ctx.response.headers.set("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
+    }
+
+    if (ctx.request.method === "OPTIONS") {
+        ctx.response.status = 200;
+        return await next();
+    }
+
+    await next();
+});
+
 app.use(AuthRouter.routes());
 
 await app.listen({ port: CONFIG.PORT });

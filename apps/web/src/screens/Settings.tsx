@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
-import {animated, easings, useTransition} from "@react-spring/web";
 import React, {HTMLAttributes} from "react";
 import {IItemPickerRecord, ItemPicker} from "../components/ItemPicker";
+import {ModalPopup} from "../components/ModalPopup";
 import {DarkModeIcon} from "../icons/DarkMode";
 import {InvertColorsIcon} from "../icons/InvertColors";
 import {LightModeIcon} from "../icons/LightMode";
@@ -25,101 +25,60 @@ export const SettingsScreen: React.FC<ISettingsScreenProps> = (props) => {
     const { open, closeSettings } = props;
     const { settings, updateSettings } = useSettings();
 
-    const transition = useTransition(open, {
-        from: { translateY: "100%" },
-        enter: { translateY: "0%" },
-        leave: { translateY: "100%" },
-        config: {
-            duration: 300,
-            easing: easings.easeOutCubic
-        },
-    });
-
     const handleTimerChange = (type: TimerType) => (e: React.ChangeEvent<HTMLInputElement>) =>
         updateSettings({ durations: { [type]: (+e.target.value || 0) * 60 } });
-
-    React.useEffect(() => {
-        document.body.style.overflowY = open ? "hidden" : "auto";
-    }, [open]);
 
     const changeTheme = React.useCallback((item: IItemPickerRecord<ThemeMode>) =>
         updateSettings({ theme: item.key }), [updateSettings]);
     
     const getFieldValue = (type: TimerType) => settings.durations[type] !== 0 ? settings.durations[type] / 60 : "";
 
-    return transition((styles, shown) => shown && (
-        <Backdrop onClick={closeSettings} style={styles}>
-            <Container onClick={e => e.stopPropagation()}>
-                <Heading>App Settings</Heading>
-                <HR />
-                <OptionContainer type="col">
-                    <OptionLabel css={{ fontSize: 16 }}>
-                        <InvertColorsIcon />
-                        Color Scheme
-                    </OptionLabel>
-                    <ItemPicker
-                        items={COLOR_SCHEME_PICKER_ITEMS}
-                        selected={settings.theme}
-                        onChange={changeTheme}
-                    />
-                </OptionContainer>
+    return (
+        <ModalPopup open={open} onClose={closeSettings}>
+            <Heading>App Settings</Heading>
+            <HR />
+            <OptionContainer type="col">
+                <OptionLabel css={{ fontSize: 16 }}>
+                    <InvertColorsIcon />
+                    Color Scheme
+                </OptionLabel>
+                <ItemPicker
+                    items={COLOR_SCHEME_PICKER_ITEMS}
+                    selected={settings.theme}
+                    onChange={changeTheme}
+                />
+            </OptionContainer>
 
-                <OptionContainer type="col">
-                    <OptionLabel css={{ fontSize: 16 }}>
-                        <TimeIcon />
-                        Time (Minutes)
-                    </OptionLabel>
-                    <OptionContainer type="row" css={{ marginTop: 12 }}>
-                        <OptionLabel>{TIMER_TYPE_LABEL[TimerType.POMATO]}</OptionLabel>
-                        <Input type="number"
-                               css={{ maxWidth: 100 }}
-                               value={getFieldValue(TimerType.POMATO)}
-                               onChange={handleTimerChange(TimerType.POMATO)} />
-                    </OptionContainer>
-                    <OptionContainer type="row" css={{ marginTop: 12 }}>
-                        <OptionLabel>{TIMER_TYPE_LABEL[TimerType.SHORT_BREAK]}</OptionLabel>
-                        <Input type="number"
-                               css={{ maxWidth: 100 }}
-                               value={getFieldValue(TimerType.SHORT_BREAK)}
-                               onChange={handleTimerChange(TimerType.SHORT_BREAK)} />
-                    </OptionContainer>
-                    <OptionContainer type="row" css={{ marginTop: 12 }}>
-                        <OptionLabel>{TIMER_TYPE_LABEL[TimerType.LONG_BREAK]}</OptionLabel>
-                        <Input type="number"
-                               css={{ maxWidth: 100 }}
-                               value={getFieldValue(TimerType.LONG_BREAK)}
-                               onChange={handleTimerChange(TimerType.LONG_BREAK)} />
-                    </OptionContainer>
+            <OptionContainer type="col">
+                <OptionLabel css={{ fontSize: 16 }}>
+                    <TimeIcon />
+                    Time (Minutes)
+                </OptionLabel>
+                <OptionContainer type="row" css={{ marginTop: 12 }}>
+                    <OptionLabel>{TIMER_TYPE_LABEL[TimerType.POMATO]}</OptionLabel>
+                    <Input type="number"
+                           css={{ maxWidth: 100 }}
+                           value={getFieldValue(TimerType.POMATO)}
+                           onChange={handleTimerChange(TimerType.POMATO)} />
                 </OptionContainer>
-            </Container>
-        </Backdrop>
-    ));
+                <OptionContainer type="row" css={{ marginTop: 12 }}>
+                    <OptionLabel>{TIMER_TYPE_LABEL[TimerType.SHORT_BREAK]}</OptionLabel>
+                    <Input type="number"
+                           css={{ maxWidth: 100 }}
+                           value={getFieldValue(TimerType.SHORT_BREAK)}
+                           onChange={handleTimerChange(TimerType.SHORT_BREAK)} />
+                </OptionContainer>
+                <OptionContainer type="row" css={{ marginTop: 12 }}>
+                    <OptionLabel>{TIMER_TYPE_LABEL[TimerType.LONG_BREAK]}</OptionLabel>
+                    <Input type="number"
+                           css={{ maxWidth: 100 }}
+                           value={getFieldValue(TimerType.LONG_BREAK)}
+                           onChange={handleTimerChange(TimerType.LONG_BREAK)} />
+                </OptionContainer>
+            </OptionContainer>
+        </ModalPopup>
+    );
 };
-
-const Backdrop = styled(animated.div)`
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    width: 100%;
-    z-index: 10;
-    padding-top: 100px;
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-    overflow-y: auto;
-`;
-
-const Container = styled(animated.div)`
-    width: 100%;
-    max-width: 600px;
-    flex: 1;
-    margin: 0 auto;
-    color: ${({ theme }) => theme.palette.typography.primary};
-    background: ${({ theme }) => theme.palette.background.paper};
-    padding: 42px;
-    border-radius: 22px 22px 0 0;
-`;
 
 const Heading = styled.h1`
     font-size: 32px;

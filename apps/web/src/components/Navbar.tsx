@@ -1,0 +1,80 @@
+import React from "react";
+import {animated, Spring} from "@react-spring/web";
+import styled from "@emotion/styled";
+import {SettingsIcon} from "../icons/Settings";
+import {AccountIcon} from "../icons/Account";
+import {useAuthenticator} from "../hooks/use-authenticator";
+import {useOptionalUser} from "../store/user.store";
+import {Loader as LoaderDefault} from "../icons/Loader";
+
+interface INavbarProps {
+    readonly zenMode: boolean;
+    readonly toggleSettings: () => void;
+}
+
+export const Navbar: React.FC<INavbarProps> = (props) => {
+    const { zenMode, toggleSettings } = props;
+    const { authenticate, isLoading } = useAuthenticator();
+    const { user } = useOptionalUser();
+    
+    return (
+        <Spring to={{ opacity: zenMode ? 0 : 1 }}>
+            {styles => (
+                <Container style={styles}>
+                    <div />
+                    <Right>
+                        {isLoading && <Loader />}
+                        {user && ! isLoading && <Avatar alt="Profile Picture" src={user.profile_picture_url} />}
+                        {! user && ! isLoading && <AccountIcon onClick={authenticate} />}
+                        <SettingsCog onClick={toggleSettings} />
+                    </Right>
+                </Container>
+            )}
+        </Spring>
+    );
+};
+
+const Loader = styled(LoaderDefault)`
+    color: ${({ theme }) => theme.palette.typography.primary}!important;
+`;
+
+const Avatar = styled.img`
+    width: 28px;
+    height: 28px;
+    border-radius: 100%;
+`;
+
+const Container = styled(animated.div)`
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px;
+
+    svg {
+        color: ${({ theme }) => theme.palette.typography.hint};
+        transition: all 150ms ease-in-out;
+        width: 24px;
+        cursor: pointer;
+
+        &:hover {
+            color: ${({ theme }) => theme.palette.typography.primary};
+        }
+    }
+`;
+
+const Right = styled.div`
+    display: flex;
+    align-items: center;
+    gap: 14px;
+`;
+
+const SettingsCog = styled(SettingsIcon)`
+    &:hover {
+        transform: rotate(45deg);
+    }
+`;

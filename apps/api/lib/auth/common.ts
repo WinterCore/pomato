@@ -9,3 +9,5 @@ export interface IOAuthProvider {
     readonly getAuthURL: () => string;
     readonly getData: (authCode: string) => Promise<IOAuthUserData>;
 }
+
+export type AuthProvider = "google";

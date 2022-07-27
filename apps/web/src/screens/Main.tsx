@@ -2,11 +2,11 @@ import React, {HTMLAttributes} from "react";
 import {TimerDisplay} from "../components/TimerDisplay";
 import {TimerStoreProvider} from "../store/timer.store";
 import {TimerControls} from "../components/TimerControls";
-import {SettingsCog} from "../components/SettingsCog";
 import {TimerTypeControl} from "../components/TimerTypeControl";
 import {animated, Spring} from "@react-spring/web";
 import {useZenMode} from "../hooks/use-zen-mode";
 import styled from "@emotion/styled";
+import {Navbar} from "../components/Navbar";
 
 interface IMainScreenProps extends HTMLAttributes<HTMLElement> {
     readonly toggleSettings: () => void;
@@ -18,6 +18,7 @@ export const MainScreen: React.FC<IMainScreenProps> = (props) => {
 
     return (
         <Main>
+            <Navbar zenMode={zenMode} toggleSettings={toggleSettings} />
             <TimerStoreProvider>
                 <TimerDisplayContainer>
                     <TimerTypeControl />
@@ -32,21 +33,16 @@ export const MainScreen: React.FC<IMainScreenProps> = (props) => {
                     </Spring>
                 </TimerDisplayContainer>
             </TimerStoreProvider>
-            <Spring to={{ opacity: zenMode ? 0 : 1 }}>
-                {styles => (
-                    <animated.div style={styles} onClick={toggleSettings}>
-                        <SettingsCog />
-                    </animated.div>
-                )}
-            </Spring>
         </Main>
     );
 };
 
 const Main = styled.main`
+    color: ${({ theme }) => theme.palette.typography.primary};
     background: ${({ theme }) => theme.palette.background.primary};
     min-height: 100vh;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
 `;

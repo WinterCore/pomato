@@ -55,5 +55,10 @@ AuthRouter.get<"/me", never, IAuthState>("/me", authenticated, async (ctx) => {
         return ctx.response.status = 500;
     }
 
-    ctx.response.body = data;
+    ctx.response.body = {
+        id: data._id,
+        name: data.name,
+        email: data.email,
+        profile_picture_url: data.profile_picture_url,
+    };
 });
