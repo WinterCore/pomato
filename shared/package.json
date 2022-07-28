@@ -1,0 +1,19 @@
+{
+  "name": "@pomato/shared",
+  "version": "0.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {},
+  "keywords": [],
+  "author": "",
+  "main": "./out/index.js",
+  "types": "./out/index.d.ts",
+  "scripts": {
+      "build": "tsc",
+      "build:watch": "tsc --watch"
+  },
+  "license": "ISC",
+  "dependencies": {
+    "typescript": "^4.7.4"
+  }
+}

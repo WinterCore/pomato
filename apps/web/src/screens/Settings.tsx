@@ -1,19 +1,19 @@
 import styled from "@emotion/styled";
 import React, {HTMLAttributes} from "react";
 import {IItemPickerRecord, ItemPicker} from "../components/ItemPicker";
-import {ModalPopup} from "../components/ModalPopup";
+import {ModalPopup, ModalPopupHeading, ModalPopupSeparator} from "../components/ModalPopup";
 import {DarkModeIcon} from "../icons/DarkMode";
 import {InvertColorsIcon} from "../icons/InvertColors";
 import {LightModeIcon} from "../icons/LightMode";
 import {TimeIcon} from "../icons/Time";
 import {useSettings} from "../store/settings.store";
-import {TIMER_TYPE_LABEL} from "../store/timer.store";
+import {TIMER_TYPE_LABEL} from "../store/timer/timer.store";
 import {ThemeMode} from "../theme";
 import {TimerType} from "../types/common";
 
 interface ISettingsScreenProps extends HTMLAttributes<HTMLDivElement> {
     readonly open: boolean;
-    readonly closeSettings: () => void;
+    readonly close: () => void;
 }
 
 const COLOR_SCHEME_PICKER_ITEMS: ReadonlyArray<IItemPickerRecord<ThemeMode>> = [
@@ -22,7 +22,7 @@ const COLOR_SCHEME_PICKER_ITEMS: ReadonlyArray<IItemPickerRecord<ThemeMode>> = [
 ];
 
 export const SettingsScreen: React.FC<ISettingsScreenProps> = (props) => {
-    const { open, closeSettings } = props;
+    const { open, close } = props;
     const { settings, updateSettings } = useSettings();
 
     const handleTimerChange = (type: TimerType) => (e: React.ChangeEvent<HTMLInputElement>) =>
@@ -34,9 +34,9 @@ export const SettingsScreen: React.FC<ISettingsScreenProps> = (props) => {
     const getFieldValue = (type: TimerType) => settings.durations[type] !== 0 ? settings.durations[type] / 60 : "";
 
     return (
-        <ModalPopup open={open} onClose={closeSettings}>
-            <Heading>App Settings</Heading>
-            <HR />
+        <ModalPopup open={open} onClose={close}>
+            <ModalPopupHeading>App Settings</ModalPopupHeading>
+            <ModalPopupSeparator />
             <OptionContainer type="col">
                 <OptionLabel css={{ fontSize: 16 }}>
                     <InvertColorsIcon />
@@ -80,11 +80,6 @@ export const SettingsScreen: React.FC<ISettingsScreenProps> = (props) => {
     );
 };
 
-const Heading = styled.h1`
-    font-size: 32px;
-    font-weight: bold;
-`;
-
 const OptionLabel = styled.div`
     font-size: 14px;
 
@@ -113,13 +108,6 @@ const OptionContainer = styled("div", { shouldForwardProp: prop => prop !== "typ
 
     ${({ type }) => type === "col" ? `
     ` : ""}
-`;
-
-const HR = styled.div`
-    width: 100%;
-    height: 1px;
-    background: ${({ theme: { palette, helpers } }) => helpers.withAlpha(palette.typography.hint, 0.3)};
-    margin: 40px 0;
 `;
 
 const Input = styled.input`

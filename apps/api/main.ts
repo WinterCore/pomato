@@ -17,10 +17,9 @@ const ALLOWED_CORS_ORIGINS = [
     "http://pomato.app",
 ];
 
+// CORS Middleware
 app.use(async (ctx, next) => {
-
     const origin = ctx.request.headers.get("origin");
-    console.log(ctx.request.method, origin);
 
     if (origin && ALLOWED_CORS_ORIGINS.find(allowed => origin.startsWith(allowed))) {
         ctx.response.headers.set("Access-Control-Allow-Origin", origin);

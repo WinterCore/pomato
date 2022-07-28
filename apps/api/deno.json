@@ -1,8 +1,7 @@
 {
     "compilerOptions": {
-        "extends": "../tsconfig.json",
-        "lib": ["deno.window"],
-        "strict": true
+        "extends": "../../tsconfig.json",
+        "lib": ["deno.window"]
     },
     "lint": {
         "files": {

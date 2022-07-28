@@ -8,5 +8,5 @@ const elem = document.getElementById("root") as HTMLDivElement;
 ReactDOM
     .createRoot(elem)
     .render(
-            <App />
+        <App />
     );

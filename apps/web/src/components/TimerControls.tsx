@@ -1,9 +1,9 @@
-import {useTimerStore} from "../store/timer.store";
+import {useTimerStore} from "../store/timer/timer.store";
 import {PauseIcon} from "../icons/Pause";
 import {PlayIcon} from "../icons/Play";
 
 export const TimerControls: React.FC = () => {
-    const { isStarted, start, stop } = useTimerStore();
+    const { state: { isStarted }, start, stop } = useTimerStore();
 
     return (
         <>

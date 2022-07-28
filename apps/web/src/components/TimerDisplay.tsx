@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
 import React, {HTMLAttributes} from "react";
 import {SPORTS} from "../lib/segment-digits/data";
-import {useTimerStore} from "../store/timer.store";
+import {useTimerStore} from "../store/timer/timer.store";
 import {SegmentDigit as SegmentDigitDefault} from "./SegmentDigit";
 
 const numberToDigits = (value: number, minDigits = 2): ReadonlyArray<number> => {
@@ -17,7 +17,7 @@ const numberToDigits = (value: number, minDigits = 2): ReadonlyArray<number> => 
 interface ITimerDisplayProps extends HTMLAttributes<HTMLDivElement> {}
 
 export const TimerDisplay: React.FC<ITimerDisplayProps> = React.memo((props) => {
-    const { secondsLeft } = useTimerStore();
+    const { state: { secondsLeft } } = useTimerStore();
 
     const seconds = numberToDigits(secondsLeft % 60);
     const minutes = numberToDigits(Math.floor(secondsLeft / 60));

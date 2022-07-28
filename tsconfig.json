@@ -15,7 +15,6 @@
         "strictNullChecks": true,
         "strictPropertyInitialization": true,
         "useUnknownInCatchVariables": true,
-        "module": "ESNext",
-        "noEmit": true
+        "module": "ESNext"
     }
 }

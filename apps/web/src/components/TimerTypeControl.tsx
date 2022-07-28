@@ -1,5 +1,5 @@
 import React, {HTMLAttributes} from "react";
-import {TIMER_TYPE_LABEL, useTimerStore} from "../store/timer.store";
+import {TIMER_TYPE_LABEL, useTimerStore} from "../store/timer/timer.store";
 import {IRecordWithLabel, TimerType} from "../types/common";
 import {ItemPicker} from "./ItemPicker";
 
@@ -12,7 +12,7 @@ const ITEMS: ReadonlyArray<IRecordWithLabel<TimerType>> = [
 ];
 
 export const TimerTypeControl: React.FC<ITimerTypeControlProps> = (props) => {
-    const { changeType, type } = useTimerStore();
+    const { changeType, state: { type } } = useTimerStore();
 
     const handleChange = React.useCallback((item: IRecordWithLabel<TimerType>) =>
         changeType(item.key), [changeType]);

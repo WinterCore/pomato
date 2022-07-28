@@ -15,7 +15,9 @@ export const useAuthenticator = () => {
             setLoading(true);
 
             try {
-                const resp = await fetch(GET_GOOGLE_AUTH_URL);
+                const resp = await fetch(GET_GOOGLE_AUTH_URL, {
+                    headers: { Accept: "application/json" }
+                });
 
                 if (! resp.ok) {
                     alert("Something happened");
@@ -45,6 +47,7 @@ export const useAuthenticator = () => {
             const resp = await fetch(GET_USER_INFO, {
                 headers: {
                     Authorization: `Bearer ${token}`,
+                    Accept: "application/json",
                 }
             });
 
@@ -65,8 +68,11 @@ export const useAuthenticator = () => {
         }
     }, [setUser, setLoading]);
 
+    const logout = React.useCallback(() => setUser(null), [setUser]);
+
     return {
         authenticate,
         isLoading,
+        logout,
     };
 };

@@ -1,6 +1,6 @@
 import React, {HTMLAttributes} from "react";
 import {TimerDisplay} from "../components/TimerDisplay";
-import {TimerStoreProvider} from "../store/timer.store";
+import {TimerStoreProvider} from "../store/timer/timer.store";
 import {TimerControls} from "../components/TimerControls";
 import {TimerTypeControl} from "../components/TimerTypeControl";
 import {animated, Spring} from "@react-spring/web";
@@ -10,15 +10,18 @@ import {Navbar} from "../components/Navbar";
 
 interface IMainScreenProps extends HTMLAttributes<HTMLElement> {
     readonly toggleSettings: () => void;
+    readonly toggleAccount: () => void;
 }
 
 export const MainScreen: React.FC<IMainScreenProps> = (props) => {
-    const { toggleSettings } = props;
+    const { toggleSettings, toggleAccount } = props;
     const zenMode = useZenMode();
 
     return (
         <Main>
-            <Navbar zenMode={zenMode} toggleSettings={toggleSettings} />
+            <Navbar zenMode={zenMode}
+                    toggleSettings={toggleSettings}
+                    toggleAccount={toggleAccount} />
             <TimerStoreProvider>
                 <TimerDisplayContainer>
                     <TimerTypeControl />

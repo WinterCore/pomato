@@ -10,10 +10,11 @@ import {Loader as LoaderDefault} from "../icons/Loader";
 interface INavbarProps {
     readonly zenMode: boolean;
     readonly toggleSettings: () => void;
+    readonly toggleAccount: () => void;
 }
 
 export const Navbar: React.FC<INavbarProps> = (props) => {
-    const { zenMode, toggleSettings } = props;
+    const { zenMode, toggleSettings, toggleAccount } = props;
     const { authenticate, isLoading } = useAuthenticator();
     const { user } = useOptionalUser();
     
@@ -24,7 +25,11 @@ export const Navbar: React.FC<INavbarProps> = (props) => {
                     <div />
                     <Right>
                         {isLoading && <Loader />}
-                        {user && ! isLoading && <Avatar alt="Profile Picture" src={user.profile_picture_url} />}
+                        {user && ! isLoading && (
+                            <Avatar alt="Profile Picture"
+                                    onClick={toggleAccount}
+                                    src={user.profile_picture_url} />
+                        )}
                         {! user && ! isLoading && <AccountIcon onClick={authenticate} />}
                         <SettingsCog onClick={toggleSettings} />
                     </Right>
@@ -42,6 +47,7 @@ const Avatar = styled.img`
     width: 28px;
     height: 28px;
     border-radius: 100%;
+    cursor: pointer;
 `;
 
 const Container = styled(animated.div)`

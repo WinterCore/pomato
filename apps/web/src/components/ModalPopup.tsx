@@ -25,6 +25,18 @@ export const ModalPopup: React.FC<IModalPopupProps> = (props) => {
         document.body.style.overflowY = open ? "hidden" : "auto";
     }, [open]);
 
+    React.useEffect(() => {
+        const handleKeyDown = (e: KeyboardEvent) => {
+            if (e.key === "Escape") {
+                onClose();
+            }
+        };
+
+        window.addEventListener("keydown", handleKeyDown);
+
+        return () => window.removeEventListener("keydown", handleKeyDown);
+    }, [onClose]);
+
     return transition((styles, shown) => shown && (
         <Backdrop onClick={onClose} style={styles}>
             <Container onClick={e => e.stopPropagation()} children={children} />
@@ -55,4 +67,17 @@ const Container = styled.div`
     background: ${({ theme }) => theme.palette.background.paper};
     padding: 42px;
     border-radius: 22px 22px 0 0;
+`;
+
+export const ModalPopupHeading = styled.h1`
+    font-size: 32px;
+    font-weight: bold;
+`;
+
+
+export const ModalPopupSeparator = styled.div`
+    width: 100%;
+    height: 1px;
+    background: ${({ theme: { palette, helpers } }) => helpers.withAlpha(palette.typography.hint, 0.3)};
+    margin: 40px 0;
 `;
