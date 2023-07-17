@@ -111,6 +111,10 @@ importers:
       typescript:
         specifier: ^5.1.6
         version: 5.1.6
+    devDependencies:
+      tsconfig:
+        specifier: workspace:*
+        version: link:../tsconfig
 
   packages/tsconfig: {}
 

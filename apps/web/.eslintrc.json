@@ -37,6 +37,7 @@
     "dist",
     "node_modules",
     "examples",
+    "vite.config.ts",
     "scripts",
     "*.d.ts",
     "*.js"

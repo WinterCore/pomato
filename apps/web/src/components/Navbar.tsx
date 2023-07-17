@@ -20,7 +20,7 @@ export const Navbar: React.FC<INavbarProps> = (props) => {
     
     return (
         <Spring to={{ opacity: zenMode ? 0 : 1 }}>
-            {(styles: any) => (
+            {(styles) => (
                 <Container style={styles}>
                     <div />
                     <Right>
