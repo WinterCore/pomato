@@ -1,0 +1,21 @@
+{
+  "name": "shared",
+  "version": "0.0.0",
+  "description": "Pomato shared APIs",
+  "type": "module",
+  "sideeffects": false,
+  "private": true,
+  "keywords": [],
+  "author": "",
+  "scripts": {
+    "build": "tsc",
+    "build:watch": "tsc --watch"
+  },
+  "license": "ISC",
+  "dependencies": {
+    "typescript": "^5.1.6"
+  },
+  "devDependencies": {
+    "tsconfig": "workspace:*"
+  }
+}
