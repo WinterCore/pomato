@@ -1,4 +1,6 @@
-export type ThemeMode = "dark" | "light";
+import {ISettings} from "./settings.ts";
+
+export type ThemeMode = ISettings["theme"];
 
 export interface ThemeBreakpoints {
     readonly xs: number;
