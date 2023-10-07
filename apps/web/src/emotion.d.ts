@@ -13,6 +13,7 @@ declare module "@emotion/react" {
         readonly breakpoints: ThemeBreakpoints;
 
         readonly palette: {
+            readonly accent: string;
             readonly background: Partial<Record<PaletteKeys, string>>;
             readonly typography: Partial<Record<PaletteKeys, string>>;
         };

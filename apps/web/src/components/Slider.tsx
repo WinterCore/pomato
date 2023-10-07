@@ -21,7 +21,7 @@ export const Slider: React.FC<ISliderProps> = (props) => {
                     {...restProps}
                     style={{
                         ...restProps.style,
-                        background: `linear-gradient(to right, ${bg.secondary}, ${bg.secondary} ${value * 100}%, ${tg.secondary} ${value * 100}%, ${tg.secondary} 100%)`
+                        background: `linear-gradient(to right, ${tg.secondary}, ${tg.secondary} ${value * 100}%, ${bg.secondary} ${value * 100}%, ${bg.secondary} 100%)`
                     }}
                     type="range"
                     onChange={handleChange}
@@ -49,7 +49,7 @@ const RangeInput = styled("input")`
         height: 25px;
         border-radius: 50%;
         cursor: pointer;
-        background: ${({ theme }) => theme.palette.background.secondary};
+        background: ${({ theme }) => theme.palette.accent};
         -webkit-transition: background .15s ease-in-out;
         transition: background .15s ease-in-out;
     }

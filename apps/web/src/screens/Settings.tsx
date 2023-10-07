@@ -27,8 +27,6 @@ export const SettingsScreen: React.FC<ISettingsScreenProps> = (props) => {
     const { open, close } = props;
     const { settings, updateSettings } = useSettings();
 
-    console.log(settings);
-
     const handleTimerChange = (type: TimerType) => (e: React.ChangeEvent<HTMLInputElement>) =>
         updateSettings({ durations: { [type]: (+e.target.value || 0) * 60 } });
 

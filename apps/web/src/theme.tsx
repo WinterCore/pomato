@@ -31,6 +31,7 @@ const THEMES: Record<ThemeMode, Theme> = {
         helpers: THEME_HELPERS,
         breakpoints: THEME_BREAKPOINTS,
         palette: {
+            accent: "#9b9a9c",
             background: {
                 primary: "#0c0c0d",
                 secondary: "#1e1d1f",
@@ -48,6 +49,7 @@ const THEMES: Record<ThemeMode, Theme> = {
         helpers: THEME_HELPERS,
         breakpoints: THEME_BREAKPOINTS,
         palette: {
+            accent: "#9b9a9c",
             background: {
                 primary: "#FFFFFF",
                 secondary: "#e5e4e8",
@@ -55,7 +57,7 @@ const THEMES: Record<ThemeMode, Theme> = {
             },
             typography: {
                 primary: "#000000",
-                secondary: "",
+                secondary: "#d0cfd1",
                 hint: "#71717b",
             }
         },

@@ -32,7 +32,7 @@ onmessage = (e: MessageEvent<IEvent>) => {
 
     switch (data.type) {
         case "start": {
-            intervalID = window.setInterval(() => {
+            intervalID = setInterval(() => {
                 seconds -= 1;
 
                 if (seconds < 1) {
@@ -47,7 +47,7 @@ onmessage = (e: MessageEvent<IEvent>) => {
                     type: "time-changed",
                     seconds,
                 } as ISubscriptionEvent);
-            }, 1000);
+            }, 1000) as unknown as number;
             break;
         }
 
